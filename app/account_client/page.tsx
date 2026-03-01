@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { useClientSession } from '@/lib/hooks/use-client-session'
 import { useClientData } from '@/lib/hooks/use-client-data'
-import { useCart } from '@/lib/contexts/cart-context'
+import { CartProvider, useCart } from '@/lib/contexts/cart-context'
 import { useFavorites } from '@/lib/hooks/use-favorites'
 import {
   ClientProfileTab,
@@ -24,7 +24,7 @@ import {
   ClientTransactionsTab
 } from '@/components/account-client'
 
-export default function AccountPage() {
+function AccountPageContent() {
   const router = useRouter()
   const { session: clientSession, logout: clientLogout, isLoading } = useClientSession()
   const { state: cartState } = useCart()
@@ -202,5 +202,13 @@ export default function AccountPage() {
         </Button>
       </div>
     </div>
+  )
+}
+
+export default function AccountPage() {
+  return (
+    <CartProvider>
+      <AccountPageContent />
+    </CartProvider>
   )
 }

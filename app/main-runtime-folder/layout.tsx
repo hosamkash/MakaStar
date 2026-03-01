@@ -1,7 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Tajawal } from "next/font/google" // Import Tajawal font
-import "./globals.css"
+import "../globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
