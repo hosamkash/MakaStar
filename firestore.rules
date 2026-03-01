@@ -1,0 +1,257 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // تم إلغاء مجموعة ColorImages ضمن طلب العودة
+    // Allow read access to all users for public data
+    match /{document=**} {
+      allow read: if true;
+    }
+
+    // Live users tracking
+    match /LiveUsers/{userId} {
+      // Allow creating and updating live user heartbeat documents
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Colors & Sizes definitions
+    match /Def_Colors/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /Def_Sizes/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Screen settings (App_ScreenSettings)
+    // Allow nested doc ids (routes with slashes)
+    match /App_ScreenSettings/{route=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Products structure and variants
+    match /Def_ProductStructure/{productId} {
+      allow read: if true;
+      allow write: if true;
+
+      // Variants subcollection
+      match /Variants/{variantId} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // Product categories links
+    match /Def_ProductStructureCategoty/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Shop cart (Shop_Bascet)
+    match /Shop_Bascet/{document} {
+      // السماح بالقراءة والكتابة والحذف لعناصر السلة
+      // ملاحظة: يمكن تضييق الصلاحيات لاحقاً بربطها بالمستخدم
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // Geographic Locations Collections
+    match /DefGeo_Government/{document} {
+      allow write: if request.auth != null;
+    }
+
+    match /DefGeo_Cities/{document} {
+      allow write: if request.auth != null;
+    }
+
+    match /DefGeo_Areas/{document} {
+      allow write: if request.auth != null;
+    }
+
+    match /DefGeo_Villages/{document} {
+      allow write: if request.auth != null;
+    }
+
+    match /DefGeo_Places/{document} {
+      allow write: if request.auth != null;
+    }
+
+    // النسخ الاحتياطية - السماح بالوصول الكامل
+    match /System_Backups/{document} {
+      allow read, write, delete: if true;
+    }
+
+    // تعريفات الوحدات
+    match /Def_Units/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات التصنيفات
+    match /Def_Categories/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات البنود المالية
+    match /Def_FinancialCluses/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات المخازن
+    match /Def_Stocks/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الخزائن
+    match /Def_Treasures/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات بيانات الشركة
+    match /Def_CompanyStructure/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات العروض
+    match /Def_Offers/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات العروض بالمنتجات (تغطية المستند والتفرعات الداخلية)
+    match /Def_OffersByProducts/{document=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الإنتاج
+    match /Def_ProductionCom/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات المنتجات
+    match /Def_Products/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الأقسام
+    match /Def_Sections/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات تصنيفات المتجر
+    match /Def_ShopCategories/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات بانر المتجر
+    match /Def_ShopBanner/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الوظائف
+    match /Def_Jobs/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الشركات المنتجة
+    match /Def_ProductionCompanies/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات المنتجات
+    match /Def_ProductStructure/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تصنيفات المنتجات
+    match /Def_ProductStructureCategoty/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // طلبات المتجر
+    match /Shop_Orders/{orderId} {
+      allow read: if true;
+      allow write: if true;
+      
+      // تفاصيل الطلبات
+      match /Shop_OrdersDetails/{detailId} {
+        allow read: if true;
+        allow write: if true;
+      }
+    }
+
+    // العملاء
+    match /Shop_Customers/{customerId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // الرعاة الشخصيين
+    match /Shop_PersonalSponsors/{sponsorId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // الموظفين - Dealing_Employees
+    match /Dealing_Employees/{employeeId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // العملاء - Dealing_Clients
+    match /Dealing_Clients/{clientId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تفاصيل طلبات المتجر
+    match /Shop_OrderDetails/{detailId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الحالة الاجتماعية
+    match /Fix_MaritalStatus/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الأديان
+    match /Fix_Religions/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الجنس
+    match /Fix_Gender/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // تعريفات الحالة العسكرية
+    match /Fix_MilitaryStatus/{document} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
+// ***********************

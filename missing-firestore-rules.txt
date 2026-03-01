@@ -1,0 +1,25 @@
+// القواعد الناقصة التي تحتاج إلى إضافتها لـ Firebase Firestore Rules
+
+// طلبات المتجر
+match /Shop_Orders/{orderId} {
+  allow read: if true;
+  allow write: if true;
+  
+  // تفاصيل الطلبات
+  match /Shop_OrdersDetails/{detailId} {
+    allow read: if true;
+    allow write: if true;
+  }
+}
+
+// العملاء
+match /Shop_Customers/{customerId} {
+  allow read: if true;
+  allow write: if true;
+}
+
+// الرعاة الشخصيين
+match /Shop_PersonalSponsors/{sponsorId} {
+  allow read: if true;
+  allow write: if true;
+}

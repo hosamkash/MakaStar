@@ -1,0 +1,77 @@
+// storage.rules
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+  
+    // Allow full access to Application folder (read/write/delete/list)
+    match /Application/{folder}/{documentId}/{fileName} {
+      allow read, write, delete, list: if true;
+    }
+    
+    // قاعدة عامة للوصول إلى أي ملف في مجلد Application
+    match /Application/{allPaths=**} {
+      allow read, write, delete, list: if true;
+    }
+    
+    // صور المنتج الرئيسية
+    match /Application/Def_ProductStructure/{productId}/{fileName} {
+      allow read, write, delete: if true;
+    }
+    // معرض صور المنتج
+    match /Application/Def_ProductStructure/{productId}/gallery/{fileName} {
+      allow read, write, delete: if true;
+    }
+    // صور توليفات/الـ variants للمنتج
+    match /Application/Def_ProductStructure/{productId}/variants/{fileName} {
+      allow read, write, delete: if true;
+    }
+
+    // تم إلغاء مسار colors ضمن طلب العودة
+
+    // التصنيفات: نرفع داخل مجلد الـ ID
+    match /Application/Def_Categories/{categoryId}/{fileName} {
+      allow read, write, delete: if true;
+    }
+
+    // العروض: داخل مجلد الـ ID
+    match /Application/Def_Offers/{offerId}/{fileName} {
+      allow read, write, delete: if true;
+    }
+
+    // عروض حسب المنتجات: داخل مجلد الـ ID
+    match /Application/Def_OffersByProducts/{offerId}/{fileName} {
+      allow read, write, delete: if true;
+    }
+
+    // البنرات (قراءة/كتابة ملفات + السماح بالـ list على مجلد البانر ليدعم listAll)
+    match /Application/Def_ShopBanner/{bannerId}/{fileName} {
+      allow read, write, delete: if true;
+    }
+    // السماح بالـ list على مجلد البانر وأي مجلدات فرعية بداخله
+    match /Application/Def_ShopBanner/{bannerId}/{allPaths=**} {
+      allow list: if true;
+    }
+
+    // الأماكن (كما لديك)
+    match /Application/DefGeo_Places/{fileName} {
+      allow read, write, delete: if true;
+    }
+    
+    // مرفقات الموظفين
+    match /Application/Dealing_Employees/{employeeId}/{fileName} {
+      allow read, write, delete, list: if true;
+    }
+    
+    // النسخ الاحتياطية - السماح بالوصول الكامل لمجلد SystemBackups
+    match /Application/SystemBackups/{fileName} {
+      allow read, write, delete, list: if true;
+    }
+    
+    // السماح بالـ list على مجلد النسخ الاحتياطية
+    match /Application/SystemBackups/{allPaths=**} {
+      allow list: if true;
+    }
+    
+  }
+}
+// ***********************

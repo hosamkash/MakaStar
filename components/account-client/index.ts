@@ -1,0 +1,6 @@
+export { default as ClientProfileTab } from './client-profile-tab'
+export { default as ClientOrdersTab } from './client-orders-tab'
+export { default as ClientCartTab } from './client-cart-tab'
+export { default as ClientFavoritesTab } from './client-favorites-tab'
+export { default as ClientPaymentMethodsTab } from './client-payment-methods-tab'
+export { default as ClientTransactionsTab } from './client-transactions-tab'
