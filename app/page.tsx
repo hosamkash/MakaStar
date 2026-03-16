@@ -1,43 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 export default function MainWebSitePage() {
   const STORE_URL = 'https://www.vigilhub.app/store?tenant=Maka'
-  const REDIRECT_DELAY_MS = 5000
-  const [progress, setProgress] = useState(0)
+  const COMPANY_APP_URL = 'https://www.vigilhub.app/dashboard/login'
 
-  const statusText =
-    progress < 35
-      ? 'جاري تجهيز بيانات المتجر'
-      : progress < 75
-        ? 'يرجى الانتظار، يتم تحميل المحتوى'
-        : 'اكتمل التحميل، المتجر جاهز للعرض'
-
-  const handleRedirectNow = () => {
+  const openStore = () => {
     window.location.href = STORE_URL
   }
 
-  useEffect(() => {
-    const startTime = Date.now()
-
-    const progressTimer = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const nextProgress = Math.min((elapsed / REDIRECT_DELAY_MS) * 100, 100)
-      setProgress(nextProgress)
-    }, 60)
-
-    // Redirect after 5 seconds
-    const redirectTimer = setTimeout(() => {
-      window.location.href = STORE_URL
-    }, REDIRECT_DELAY_MS)
-
-    return () => {
-      clearInterval(progressTimer)
-      clearTimeout(redirectTimer)
-    }
-  }, [STORE_URL])
+  const openCompanyApp = () => {
+    window.location.href = COMPANY_APP_URL
+  }
 
   return (
     <>
@@ -53,51 +28,11 @@ export default function MainWebSitePage() {
         padding: '24px',
         gap: '20px'
       }}>
-        <div className="loading-status" style={{
-          textAlign: 'center',
-          width: 'min(92vw, 420px)'
-        }}>
-          <p style={{
-            margin: 0,
-            marginBottom: '10px',
-            fontSize: '15px',
-            fontWeight: 700,
-            color: '#0f172a'
-          }}>
-            {statusText}
-          </p>
-          <div style={{
-            width: '100%',
-            height: '8px',
-            borderRadius: '999px',
-            background: '#e2e8f0',
-            overflow: 'hidden'
-          }}>
-            <div
-              style={{
-                height: '100%',
-                width: `${progress}%`,
-                borderRadius: '999px',
-                transition: 'width 120ms linear',
-                background: 'linear-gradient(90deg, #ef4444 0%, #f97316 100%)'
-              }}
-            />
-          </div>
-          <p style={{
-            margin: '8px 0 0',
-            fontSize: '13px',
-            color: '#475569'
-          }}>
-            {Math.round(progress)}% - يتم تجهيز البيانات
-          </p>
-        </div>
-
-        {/* Logo Container - Rotate Effect */}
         <button
           type="button"
           className="logo-shell"
-          aria-label="عرض المتجر الآن"
-          onClick={handleRedirectNow}
+          aria-label="متجر المنتجات"
+          onClick={openStore}
           style={{
             width: '220px',
             height: '220px',
@@ -133,8 +68,49 @@ export default function MainWebSitePage() {
           color: '#64748b',
           textAlign: 'center'
         }}>
-          انتظر ثوانٍ قليلة أو اضغط على اللوجو لعرض المتجر الآن
+          اختر وجهتك:
         </p>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px',
+          width: 'min(92vw, 280px)'
+        }}>
+          <button
+            type="button"
+            onClick={openStore}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '999px',
+              border: 'none',
+              background: 'linear-gradient(90deg, #ef4444 0%, #f97316 100%)',
+              color: '#ffffff',
+              fontSize: '15px',
+              fontWeight: 700,
+              cursor: 'pointer'
+            }}
+          >
+            متجر المنتجات
+          </button>
+
+          <button
+            type="button"
+            onClick={openCompanyApp}
+            style={{
+              padding: '10px 16px',
+              borderRadius: '999px',
+              border: '1px solid #e2e8f0',
+              background: '#ffffff',
+              color: '#0f172a',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer'
+            }}
+          >
+            تطبيق الشركة (الإدارة)
+          </button>
+        </div>
       </div>
 
       <style jsx global>{`
